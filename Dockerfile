@@ -1,15 +1,16 @@
 # Smallest base image
-FROM alpine:latest
+FROM alpine:3.18
+
+MAINTAINER DAK
 
 ADD VERSION .
 
 # Install packages and openvpn
-RUN echo "http://dl-4.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories && \
-    echo "http://dl-4.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositories && \
-    apk update && apk add openssl easy-rsa openvpn iptables bash && \
-    rm -rf /tmp/* /var/tmp/* /var/cache/apk/* /var/cache/distfiles/*
+RUN echo "http://dl-4.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories 
+RUN echo "http://dl-4.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositories
+RUN apk update && apk add openssl easy-rsa openvpn iptables bash
+RUN rm -rf /tmp/* /var/tmp/* /var/cache/apk/* /var/cache/distfiles/*
 
 # Configure RUN
-RUN mkdir -p /dev/net && \
-     mknod /dev/net/tun c 10 200 
+RUN mkdir -p /dev/net && mknod /dev/net/tun c 10 200 
 
